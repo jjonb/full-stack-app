@@ -22,7 +22,7 @@ export default function App() {
     (async () => {
       try {
         const newsResponse = await axios.get(
-          `http://localhost:5050/api?q=${text}`
+          `http://localhost:5050/news?q=${text}`
         );
         setArticles(newsResponse.data);
       } catch (err) {
@@ -34,9 +34,7 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const newsResponse = await axios.get(
-          "http://localhost:5050/news?q=Ukraine"
-        );
+        const newsResponse = await axios.get("http://localhost:5050/news/top");
         setArticles(newsResponse.data);
       } catch (err) {
         console.log(err);
@@ -54,8 +52,6 @@ export default function App() {
       }
     })();
   }, []);
-
-  console.log(weather);
 
   // https://newsapi.org/v2/top-headlines?country=us&apiKey=API_KEY
 

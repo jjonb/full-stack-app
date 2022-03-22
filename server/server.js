@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/news", require("./routes/api-routes"));
+app.use("/news", require("./routes/news-api-routes"));
 app.use("/weather", require("./routes/weather-api-routes"));
 
 app.listen(PORT, () => {
