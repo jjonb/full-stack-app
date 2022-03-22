@@ -2,8 +2,8 @@ const router = require("express").Router();
 const axios = require("axios");
 require("dotenv").config();
 
-const newsHeadlineUrl = `https://newsapi.org/v2/everything?apiKey=${process.env.NEWS_SECRET}&q=`;
 const newsUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_SECRET}`;
+const newsHeadlineUrl = `https://newsapi.org/v2/everything?apiKey=${process.env.NEWS_SECRET}&q=`;
 //https:newsapi.org/v2/top-headlines?country=us&apiKey=API_KEY
 
 router.get("/top", async (req, res) => {

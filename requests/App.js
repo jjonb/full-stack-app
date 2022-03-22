@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -18,11 +19,17 @@ export default function App() {
   const [weather, setWeather] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
+  let UrlString = "localhost";
+
+  if (Platform.OS == "android") {
+    UrlString = "10.0.2.2";
+  }
+
   const searchFunction = () => {
     (async () => {
       try {
         const newsResponse = await axios.get(
-          `http://localhost:5050/news?q=${text}`
+          `http://${UrlString}:5050/news?q=${text}`
         );
         setArticles(newsResponse.data);
       } catch (err) {
@@ -34,7 +41,9 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const newsResponse = await axios.get("http://localhost:5050/news/top");
+        const newsResponse = await axios.get(
+          `http://${UrlString}:5050/news/top`
+        );
         setArticles(newsResponse.data);
       } catch (err) {
         console.log(err);
@@ -43,7 +52,7 @@ export default function App() {
     (async () => {
       try {
         const weatherResponse = await axios.get(
-          "http://localhost:5050/weather"
+          `http://${UrlString}:5050/weather`
         );
         setWeather(weatherResponse.data);
         setLoading(false);
@@ -69,14 +78,14 @@ export default function App() {
           uri: item.urlToImage,
         }}
       />
-      <Text style={{ fontSize: 25, fontFamily: "Cochin" }}>{item.content}</Text>
+      <Text style={{ fontSize: 25 }}>{item.content}</Text>
     </View>
   );
   return (
     <View style={styles.container}>
       <View>
         <TextInput
-          style={{ borderWidth: 1 }}
+          style={{ borderWidth: 1, marginTop: 100 }}
           onChangeText={onChangeText}
           value={text}
         />
@@ -85,7 +94,7 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      <View style={{ flex: 1, padding: 24 }}>
+      <View style={{ padding: 24 }}>
         {isLoading ? (
           <ActivityIndicator />
         ) : (
