@@ -40,7 +40,7 @@ function Weather() {
         resizeMode="cover"
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       >
-        <Text style={{ fontSize: 40, color: "white" }}>Weather Screen</Text>
+        <Text style={{ fontSize: 40, color: "white" }}>San Jose, CA</Text>
         <View
           style={{
             borderRadius: 150,

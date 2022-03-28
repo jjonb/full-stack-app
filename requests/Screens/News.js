@@ -9,15 +9,15 @@ import {
   TextInput,
   ActivityIndicator,
   Platform,
+  Pressable,
 } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Linking } from "react-native";
 
 export default function News() {
   const [articles, setArticles] = useState([]);
   const [text, onChangeText] = useState("");
-  const [weather, setWeather] = useState([]);
-  const [isLoading, setLoading] = useState(true);
 
   let UrlString = "localhost";
 
@@ -26,6 +26,9 @@ export default function News() {
   }
 
   const searchFunction = () => {
+    if (text === "") {
+      return;
+    }
     (async () => {
       try {
         const newsResponse = await axios.get(
@@ -53,6 +56,23 @@ export default function News() {
 
   // https://newsapi.org/v2/top-headlines?country=us&apiKey=API_KEY
 
+  const parseContent = (content) => {
+    let index = 0;
+    if (content === null) {
+      return "";
+    }
+    for (let i = 0; i < content.length; i++) {
+      if (content[i] === "[") {
+        index = i;
+        break;
+      }
+    }
+    return content.slice(0, index);
+  };
+  const navLink = (url) => {
+    Linking.openURL(url);
+  };
+
   const renderItem = ({ item }) => (
     <View style={{ alignItems: "center", justifyContent: "center" }}>
       <Text style={{ fontSize: 30, fontWeight: "bold" }}>{item.title}</Text>
@@ -67,7 +87,11 @@ export default function News() {
           uri: item.urlToImage,
         }}
       />
-      <Text style={{ fontSize: 25 }}>{item.content}</Text>
+
+      <Text style={{ fontSize: 25 }}>{parseContent(item.content)}</Text>
+      <TouchableOpacity onPress={() => navLink(item.url)}>
+        <Text style={{ fontSize: 25, color: "blue" }}>Read More</Text>
+      </TouchableOpacity>
     </View>
   );
   return (
