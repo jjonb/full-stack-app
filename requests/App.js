@@ -1,125 +1,46 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  ActivityIndicator,
-  Platform,
-} from "react-native";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { FontAwesome5 } from "@expo/vector-icons";
+
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import News from "./Screens/News";
+import Weather from "./Screens/Weather";
+
+const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
-  const [articles, setArticles] = useState([]);
-  const [text, onChangeText] = useState("");
-  const [weather, setWeather] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-
-  let UrlString = "localhost";
-
-  if (Platform.OS == "android") {
-    UrlString = "10.0.2.2";
-  }
-
-  const searchFunction = () => {
-    (async () => {
-      try {
-        const newsResponse = await axios.get(
-          `http://${UrlString}:5050/news?q=${text}`
-        );
-        setArticles(newsResponse.data);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const newsResponse = await axios.get(
-          `http://${UrlString}:5050/news/top`
-        );
-        setArticles(newsResponse.data);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-    (async () => {
-      try {
-        const weatherResponse = await axios.get(
-          `http://${UrlString}:5050/weather`
-        );
-        setWeather(weatherResponse.data);
-        setLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
-  // https://newsapi.org/v2/top-headlines?country=us&apiKey=API_KEY
-
-  const renderItem = ({ item }) => (
-    <View style={{ alignItems: "center", justifyContent: "center" }}>
-      <Text style={{ fontSize: 30, fontWeight: "bold" }}>{item.title}</Text>
-      <Text>Author: {item.author}</Text>
-      <Image
-        style={{
-          width: 100 + "%",
-          height: 200,
-          resizeMode: "contain",
-        }}
-        source={{
-          uri: item.urlToImage,
-        }}
-      />
-      <Text style={{ fontSize: 25 }}>{item.content}</Text>
-    </View>
-  );
   return (
-    <View style={styles.container}>
-      <View>
-        <TextInput
-          style={{ borderWidth: 1, marginTop: 100 }}
-          onChangeText={onChangeText}
-          value={text}
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="News"
+        activeColor="#e91e63"
+        barStyle={{ backgroundColor: "tomato" }}
+      >
+        <Tab.Screen
+          name="News"
+          component={News}
+          options={{
+            tabBarLabel: "News",
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="newspaper" size={24} color={color} />
+            ),
+          }}
         />
-        <TouchableOpacity onPress={searchFunction}>
-          <Text>Search</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={{ padding: 24 }}>
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={{ fontSize: 30, color: "black" }}>
-            {weather.main.temp} F
-          </Text>
-        )}
-      </View>
-
-      <FlatList
-        data={articles}
-        renderItem={renderItem}
-        keyExtractor={(item, num) => num}
-      />
-      {/* <Text>{articles[0] ? articles[0].source.id : "Loading"}</Text> */}
-      <StatusBar style="auto" />
-    </View>
+        <Tab.Screen
+          name="Weather"
+          component={Weather}
+          options={{
+            tabBarLabel: "Weather",
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons
+                name="weather-cloudy"
+                color={color}
+                size={26}
+              />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
