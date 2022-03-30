@@ -14,6 +14,9 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Linking } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+
+import { SearchBar } from "react-native-elements";
 
 export default function News() {
   const [articles, setArticles] = useState([]);
@@ -34,7 +37,7 @@ export default function News() {
         const newsResponse = await axios.get(
           `http://${UrlString}:5050/news?q=${text}`
         );
-        setArticles(newsResponse.data);
+        setArticles(newsResponse.data.slice(0, 4));
       } catch (err) {
         console.log(err);
       }
@@ -47,7 +50,7 @@ export default function News() {
         const newsResponse = await axios.get(
           `http://${UrlString}:5050/news/top`
         );
-        setArticles(newsResponse.data);
+        setArticles(newsResponse.data.slice(0, 4));
       } catch (err) {
         console.log(err);
       }
@@ -96,15 +99,41 @@ export default function News() {
   );
   return (
     <View style={styles.container}>
-      <View>
+      <Text
+        style={{
+          fontSize: 50,
+          marginTop: 50,
+          color: "red",
+          fontWeight: "bold",
+        }}
+      >
+        News App
+      </Text>
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 10,
+          alignItems: "center",
+        }}
+      >
         <TextInput
-          style={{ borderWidth: 1, marginTop: 100 }}
+          style={{
+            borderWidth: 1,
+            width: 200,
+            padding: 4,
+            borderRadius: 10,
+            marginBottom: 20,
+          }}
           onChangeText={onChangeText}
           value={text}
           onSubmitEditing={searchFunction}
+          placeholder="Enter a topic"
         />
-        <TouchableOpacity onPress={searchFunction}>
-          <Text>Search</Text>
+        <TouchableOpacity
+          onPress={searchFunction}
+          style={{ marginLeft: 10, marginBottom: 20 }}
+        >
+          <AntDesign name="search1" size={24} color="black" />
         </TouchableOpacity>
       </View>
 
