@@ -91,7 +91,8 @@ export default function Health() {
             style={{
               width: 147,
               height: 170,
-              borderRadius: 10,
+              borderBottomLeftRadius: 10,
+              borderTopLeftRadius: 10,
             }}
             source={{
               uri: item.urlToImage,
@@ -116,8 +117,9 @@ export default function Health() {
           >
             {item.title.slice(0, 20) + "..."}
           </Text>
-          <Text style={{ width: 200 }}>Author: {item.author}</Text>
-
+          <Text style={{ width: 200 }}>
+            Author: {item.author != null ? item.author : item.source.name}
+          </Text>
           <Text style={{ fontSize: 18 }}>
             {parseContent(item.content).slice(0, 50) + "..."}
           </Text>
