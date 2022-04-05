@@ -17,7 +17,7 @@ import { Linking } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
-export default function News() {
+export default function Health() {
   let [fontsLoaded] = useFonts({
     RegularR: require("../assets/fonts/NunitoSans-Regular.ttf"),
     ItalicR: require("../assets/fonts/NunitoSans-Italic.ttf"),
@@ -53,7 +53,7 @@ export default function News() {
     (async () => {
       try {
         const newsResponse = await axios.get(
-          `http://${UrlString}:5050/news/top`
+          `http://${UrlString}:5050/news/?q=health`
         );
         setArticles(newsResponse.data.slice(0, 4));
       } catch (err) {
@@ -176,7 +176,7 @@ export default function News() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#cae6fa",
+    backgroundColor: "#cbc3e3",
     alignItems: "center",
     justifyContent: "center",
     padding: 5,

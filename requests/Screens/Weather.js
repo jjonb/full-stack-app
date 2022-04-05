@@ -39,6 +39,7 @@ function Weather() {
     (async () => {
       try {
         const weatherResponse = await axios.get(
+          // `http://${UrlString}:5050/weather/geo?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`
           `http://${UrlString}:5050/weather`
         );
         setWeather(weatherResponse.data);
