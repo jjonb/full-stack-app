@@ -7,22 +7,39 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
+  Platform,
 } from "react-native";
+import * as Location from "expo-location";
 
 import axios from "axios";
 
 function Weather() {
   const [weather, setWeather] = useState([]);
+  const [location, setLocation] = useState(null);
+
   const [isLoading, setLoading] = useState(true);
   let UrlString = "localhost";
 
   if (Platform.OS == "android") {
     UrlString = "10.0.2.2";
   }
+
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+  };
+
   useEffect(() => {
     (async () => {
       try {
         const weatherResponse = await axios.get(
+          // `http://${UrlString}:5050/weather/geo?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`
           `http://${UrlString}:5050/weather`
         );
         setWeather(weatherResponse.data);
@@ -31,6 +48,10 @@ function Weather() {
         console.log(err);
       }
     })();
+  }, []);
+
+  useEffect(() => {
+    return getLocation();
   }, []);
 
   return (
