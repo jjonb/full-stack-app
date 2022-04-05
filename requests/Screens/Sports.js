@@ -152,6 +152,7 @@ export default function Sports() {
               paddingLeft: 24,
               borderRadius: 10,
               marginBottom: 20,
+              borderColor: "white",
               marginTop: 20,
               backgroundColor: "white",
               fontSize: 18,

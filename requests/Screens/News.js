@@ -152,6 +152,8 @@ export default function News() {
               height: 44,
               padding: 4,
               paddingLeft: 24,
+              borderColor: "white",
+
               borderRadius: 10,
               marginBottom: 20,
               marginTop: 20,

@@ -153,6 +153,7 @@ export default function Health() {
               borderRadius: 10,
               marginBottom: 20,
               marginTop: 20,
+              borderColor: "white",
               backgroundColor: "white",
               fontSize: 18,
             }}
