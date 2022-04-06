@@ -15,7 +15,7 @@ import axios from "axios";
 
 function Weather() {
   const [weather, setWeather] = useState([]);
-  const [location, setLocation] = useState(null);
+  //const [location, setLocation] = useState(null);
 
   const [isLoading, setLoading] = useState(true);
   let UrlString = "localhost";
@@ -24,16 +24,16 @@ function Weather() {
     UrlString = "10.0.2.2";
   }
 
-  const getLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      setErrorMsg("Permission to access location was denied");
-      return;
-    }
+  // const getLocation = async () => {
+  //   let { status } = await Location.requestForegroundPermissionsAsync();
+  //   if (status !== "granted") {
+  //     setErrorMsg("Permission to access location was denied");
+  //     return;
+  //   }
 
-    let location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
-  };
+  //   let location = await Location.getCurrentPositionAsync({});
+  //   setLocation(location);
+  // };
 
   useEffect(() => {
     (async () => {
@@ -50,9 +50,9 @@ function Weather() {
     })();
   }, []);
 
-  useEffect(() => {
-    return getLocation();
-  }, []);
+  // useEffect(() => {
+  //   return getLocation();
+  // }, []);
 
   return (
     <View style={{ flex: 1 }}>
